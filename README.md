@@ -2,7 +2,7 @@
 
 ## BEYOND THE PROMPT
 
-A complete browser keynote for CA students in India: 28 scenes, nine chapters, 60 minutes. Vite + vanilla JavaScript + GSAP + Lenis + selectively lazy-loaded Vanta/Three.js. Fonts, scripts and data are bundled locally.
+A seminar website with an animated landing page and a complete browser keynote for CA students in India: 28 scenes, nine chapters, 60 minutes. The landing page uses Motion; the keynote uses GSAP, Lenis and selectively lazy-loaded Vanta/Three.js. Fonts, scripts and data are bundled locally.
 
 ## Start
 
@@ -13,7 +13,7 @@ npm install
 npm run dev
 ```
 
-Open the local address printed by Vite, usually http://127.0.0.1:5173/ .
+Open the local address printed by Vite, usually http://127.0.0.1:5173/ . Select **Beginner** to open the keynote at `/beginner.html`.
 
 For the seminar, use the production build:
 
@@ -22,7 +22,7 @@ npm run build
 npm run preview
 ```
 
-Open http://127.0.0.1:4173/ . Keep the local server running. The production presentation requires no internet, API keys, login, AI service or backend. Do not open `dist/index.html` through `file://`; browser module security requires the local HTTP server. The separate static fallback file works directly from disk.
+Open http://127.0.0.1:4173/ for the landing page, then select **Beginner**. The keynote is also available directly at http://127.0.0.1:4173/beginner.html . Keep the local server running. The production presentation requires no internet, API keys, login, AI service or backend. Do not open the built HTML through `file://`; browser module security requires the local HTTP server. The separate static fallback file works directly from disk.
 
 ## Present
 
@@ -83,7 +83,7 @@ npm run build
 
 Ten automated logic/content tests cover planted results, clean results, duplicate normalisation, different vendors, date/threshold boundaries, invalid settings, missing data, impact calculations and chapter timing.
 
-`node scripts/browser-check.mjs` performs functional checks in installed macOS Chrome against the running local server. Set `TEST_URL=http://127.0.0.1:4173/` to test production. It writes browser results and selected screenshots. `node scripts/layout-check.mjs` checks every scene at 1366×768, 1440×900, 1920×1080 and 390×844. These developer scripts use a fresh temporary browser profile; they are not needed to present.
+`node scripts/browser-check.mjs` performs keynote checks in installed macOS Chrome against the running local server. Set `TEST_URL=http://127.0.0.1:4173/beginner.html` to test production. It writes browser results and selected screenshots. `node scripts/layout-check.mjs` checks every scene at 1366×768, 1440×900, 1920×1080 and 390×844. These developer scripts use a fresh temporary browser profile; they are not needed to present.
 
 See `docs/QA.md` for verified results and limitations. Safari automation was blocked by this Mac’s existing “Allow remote automation” setting; it was not changed. Do a manual Safari rehearsal if you intend to use Safari. Chrome is the browser exercised end to end.
 
@@ -111,7 +111,7 @@ Import `vedantnathani/seminar` from GitHub into Vercel and select the `main` bra
 - Output directory: `dist`.
 - Environment variables: none required.
 
-Both `/` (audience presentation) and `/presenter.html` (separate presenter window) are built. Scene links use URL fragments such as `/#scene-16`, so no catch-all rewrite is needed. Preserve the presenter page rather than rewriting every URL to the audience page. The static fallback is available at `/assets/demo-fallback.html`.
+The build contains `/` (landing page), `/beginner.html` (audience keynote) and `/presenter.html` (separate presenter window). Scene links use URL fragments such as `/beginner.html#scene-16`, so no catch-all rewrite is needed. Preserve the presenter page rather than rewriting every URL to the landing page. The static fallback is available at `/assets/demo-fallback.html`.
 
 No API credentials, client data or model connection are required. Local browser profiles, dependencies, build output and delivery archives are excluded from Git; Vercel builds the application from source.
 

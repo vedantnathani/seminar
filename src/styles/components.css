@@ -14,3 +14,4 @@ h3{font-size:36px}.tabs{margin-bottom:24px}.project-showcase{gap:36px}.project-i
 
 .scene-watermark{position:absolute;right:16px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font:10px/1 var(--mono);letter-spacing:.12em;color:currentColor;opacity:.28;pointer-events:none;user-select:none;z-index:2}
 @media(max-width:700px){.scene-watermark{right:7px;font-size:9px;letter-spacing:.08em}}
+.all-seminars{font:12px var(--sans);color:#b7b8bc;white-space:nowrap}.all-seminars:hover{color:var(--gold)}@media(max-width:700px){.all-seminars{display:none}}
