@@ -32,11 +32,15 @@ document.querySelector('#home').innerHTML = `
       <div class="hero-bottom"><span>SCROLL TO SEE THE SERIES</span><span class="hero-line"></span><span>CREATED BY VEDANT NATHANI</span></div>
     </section>
     <section id="seminars" class="seminars-section" aria-labelledby="seminars-title">
-      <div class="section-top"><span>THE SEMINAR SERIES</span><span>01 AVAILABLE NOW</span></div>
-      <div class="section-heading"><h2 id="seminars-title">Start with <em>Beginner.</em></h2><p>One seminar is ready to open. More can join the series as they are created.</p></div>
+      <div class="section-top"><span>THE SEMINAR SERIES</span><span>02 AVAILABLE NOW</span></div>
+      <div class="section-heading"><h2 id="seminars-title">Choose a <em>seminar.</em></h2><p>Two beginner-friendly seminars to explore and present.</p></div>
       <a class="seminar-card" href="/beginner.html" aria-label="Open Beginner: Beyond the Prompt seminar">
         <div class="seminar-image"><img src="/assets/beginner-preview.png" alt="Opening slide of Beyond the Prompt, an interactive CA seminar" loading="lazy"><span class="image-corner" aria-hidden="true">↗</span></div>
         <div class="seminar-info"><div class="seminar-index">01 <span>AVAILABLE</span></div><div class="seminar-title"><span class="level">BEGINNER</span><h3>Beyond the <em>Prompt</em></h3><p>From Article Assistant to Workflow Architect.</p></div><div class="seminar-meta"><span>60 MINUTES</span><span>INTERACTIVE KEYNOTE</span><span class="seminar-link">Open seminar ↗</span></div></div>
+      </a>
+      <a class="seminar-card llm-card" href="/llm-basics.html" aria-label="Open LLM Basics seminar">
+        <div class="llm-card-art"><span>THE SEMINAR SERIES / 02</span><strong>LLM<br><em>basics.</em></strong><span>FROM THE PAPER TO THE PROMPT ↗</span></div>
+        <div class="seminar-info"><div class="seminar-index">02 <span>AVAILABLE</span></div><div class="seminar-title"><span class="level">BEGINNER</span><h3>LLM <em>Basics</em></h3><p>Understand what happens between your question and the answer.</p></div><div class="seminar-meta"><span>BEGINNER LEVEL</span><span>INTERACTIVE KEYNOTE</span><span class="seminar-link">Open seminar ↗</span></div></div>
       </a>
     </section>
     <section class="home-close" aria-labelledby="close-title"><span class="close-index">NEXT / YOUR MOVE</span><h2 id="close-title">The room is <em>ready.</em></h2><a href="/beginner.html">Open the beginner seminar <span aria-hidden="true">↗</span></a></section>
