@@ -1,0 +1,4 @@
+export const escapeHTML=(v='')=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export const buttons=(items,attr)=>items.map((x,i)=>`<button ${attr}="${i}" aria-pressed="${i===0}">${x}</button>`).join('');
+export function selectable(root,selector,onSelect){root.querySelectorAll(selector).forEach((b,i)=>b.addEventListener('click',()=>{root.querySelectorAll(selector).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));onSelect(i,b);}));}
+export const line=(mode=0)=>`<svg class="transformation-line" viewBox="0 0 1000 130" preserveAspectRatio="none" fill="none" aria-hidden="true"><path d="M0 65 H${mode>0?180:1000}${mode>0?' Q210 65 230 40 H450 Q480 40 500 65 H1000':''}"/><path d="M180 65 ${mode>1?'H450 Q480 65 500 100 H750 Q780 100 800 65 H1000':mode>0?'Q210 65 230 100 H450 Q480 100 500 65':''}"/>${mode>2?[260,420,580,740,900].map(x=>`<circle cx="${x}" cy="65" r="6"/>`).join(''):''}</svg>`;

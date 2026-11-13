@@ -1,0 +1,27 @@
+import {spawn} from 'node:child_process';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
+import path from 'node:path';
+const out=path.resolve('shots/browser');await mkdir(out,{recursive:true});const profile=path.resolve('.taste-skill/chrome-functional-'+Date.now());await mkdir(profile,{recursive:true});
+const chrome=spawn('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--remote-debugging-port=0','--no-first-run','--no-default-browser-check','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader',`--user-data-dir=${profile}`,'about:blank'],{stdio:'ignore'});
+const delay=ms=>new Promise(r=>setTimeout(r,ms));let port;for(let i=0;i<100;i++){try{port=(await readFile(path.join(profile,'DevToolsActivePort'),'utf8')).split('\n')[0];break;}catch{await delay(100);}}
+if(!port)throw Error('Chrome did not start');const targets=await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();const page=targets.find(t=>t.type==='page');const ws=new WebSocket(page.webSocketDebuggerUrl);await new Promise(r=>ws.addEventListener('open',r,{once:true}));let id=0,pending=new Map(),errors=[],remoteRequests=[];ws.addEventListener('message',ev=>{const d=JSON.parse(ev.data);if(d.id){const p=pending.get(d.id);pending.delete(d.id);d.error?p.reject(d.error):p.resolve(d.result);}if(d.method==='Network.requestWillBeSent' && /^https?:/.test(d.params.request.url) && !d.params.request.url.startsWith('http://127.0.0.1:'))remoteRequests.push(d.params.request.url);if(d.method==='Runtime.exceptionThrown')errors.push(d.params.exceptionDetails.text+': '+d.params.exceptionDetails.exception?.description);});
+const send=(method,params={})=>new Promise((resolve,reject)=>{const n=++id;pending.set(n,{resolve,reject});ws.send(JSON.stringify({id:n,method,params}));});
+const evaluate=async expression=>{const r=await send('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true,userGesture:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value;};
+const url=process.env.TEST_URL||'http://127.0.0.1:5173/';const checks=[];const check=(name,pass,detail)=>{checks.push({name,pass:!!pass,...(detail?{detail}: {})});console.log(`${pass?'PASS':'FAIL'} ${name}${detail?' '+JSON.stringify(detail):''}`);};
+try{await send('Runtime.enable');await send('Page.enable');await send('Network.enable');await send('Network.setBlockedURLs',{urls:['https://*']});await send('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});await send('Page.navigate',{url});for(let i=0;i<100;i++){if(await evaluate('document.documentElement.dataset.ready === "1"'))break;await delay(100);}await evaluate('document.fonts.ready');await delay(1200);
+
+
+ const jump=async n=>{await evaluate(`document.querySelector('[data-overview]').click();document.querySelectorAll('[data-scene-link]')[${n}].click();document.activeElement?.blur()`);await delay(1000);};
+ const space=async()=>{await send('Input.dispatchKeyEvent',{type:'keyDown',key:' ',code:'Space'});await send('Input.dispatchKeyEvent',{type:'keyUp',key:' ',code:'Space'});await delay(100);};
+ await jump(1);await space();check('Space reveals first animation without navigation',await evaluate('location.hash==="#scene-1"&&document.querySelectorAll(".reveal-stack p:not([hidden])").length===1'));
+ await space();await space();await space();check('Space stops after final reveal and stays on slide',await evaluate('location.hash==="#scene-1"&&document.querySelectorAll(".reveal-stack p:not([hidden])").length===3'));
+ await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight'});await delay(1000);check('Right arrow still advances slide',await evaluate('location.hash==="#scene-2"'));
+ await jump(9);await space();check('Space switches to workflow build',await evaluate('document.querySelector(".flow-grid")!==null'));for(let i=0;i<7;i++)await space();await space();check('Space completes workflow without advancing slide',await evaluate('location.hash==="#scene-9"&&document.querySelectorAll(".flow-node.revealed").length===8'));
+ await jump(15);await space();check('Space advances next teaching step',await evaluate('document.querySelector("[data-teaching-label]").textContent.startsWith("02" )'));
+ await jump(8);await space();check('Space advances diagram selection',await evaluate('document.querySelectorAll("[data-block]")[1].getAttribute("aria-pressed")==="true"'));
+ await jump(23);await evaluate('document.querySelector(".exercise input").focus()');await space();check('Space preserves typing focus without navigation',await evaluate('location.hash==="#scene-23"&&document.activeElement===document.querySelector(".exercise input")'));
+ check('All 28 slides have attribution watermarks',await evaluate('document.querySelectorAll(".scene > .scene-watermark").length===28&&[...document.querySelectorAll(".scene-watermark")].every(x=>x.textContent==="@vedant_nathani")'));
+ await jump(1);const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});await writeFile('shots/spacebar-watermark.png',Buffer.from(shot.data,'base64'));
+ check('No runtime exceptions',errors.length===0,errors);await writeFile('docs/spacebar-results.json',JSON.stringify(checks,null,2));
+}finally{await send('Browser.close').catch(()=>{});ws.close();chrome.kill();}
+if(checks.some(c=>!c.pass))process.exitCode=1;

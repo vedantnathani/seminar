@@ -1,0 +1,12 @@
+.git/
+.agents/
+.taste-skill/
+node_modules/
+dist/
+deliverables/
+shots/
+docs/
+scripts/
+tests/
+.env*
+*.log

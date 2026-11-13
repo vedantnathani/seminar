@@ -1,0 +1,14 @@
+node_modules/
+dist/
+deliverables/
+.agents/
+.taste-skill/
+.vercel/
+shots/
+.DS_Store
+.env
+.env.*
+!.env.example
+*.log
+docs/*-results.json
+docs/taste-*.json

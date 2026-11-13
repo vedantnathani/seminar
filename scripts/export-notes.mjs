@@ -1,0 +1,4 @@
+import {writeFileSync} from 'node:fs';
+import {scenes,chapters} from '../src/data/presentation-content.js';
+const plain=s=>s.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+writeFileSync('docs/PRESENTER-NOTES.md','# Beyond the Prompt — presenter script\n\nShare the audience browser window only. Keep presenter notes on a private display. All personal project details and impacts must be confirmed before delivery.\n\n'+scenes.map((s,i)=>`## ${String(i+1).padStart(2,'0')} · ${plain(s.title)}\n\nChapter ${s.chapter+1}: ${chapters[s.chapter][0]} · ${chapters[s.chapter][1]} minutes · Scene allocation: ${s.duration} minutes\n\n${s.notes}\n\n**Takeaway:** ${s.takeaway}\n\n**Transition:** ${s.transition}\n\n**Next:** ${scenes[i+1]?plain(scenes[i+1].title):'Q&A — leave the closing composition on screen.'}\n`).join('\n'));
