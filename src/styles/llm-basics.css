@@ -6,3 +6,7 @@
 .tokenisation-stage{min-height:330px}@media(max-width:700px){.tokenisation-stage{min-height:290px}}
 footer .slide-context{display:flex;flex-direction:column;align-items:flex-start;gap:7px}.term-hint{font-size:9px;letter-spacing:.06em;color:#c7a878;line-height:1.3}footer .hint{font-size:9px}@media(max-width:700px){.term-hint{font-size:8px;max-width:210px}footer .slide-context{gap:5px}}@media(min-width:701px) and (max-width:1100px){footer .hint{display:none}}
 .chapter-divider{color:#64605a;margin:0 10px}.tag{line-height:1.7}
+/* Fit the complete slide between the fixed presentation controls. */
+@media(min-width:701px){#stage{height:100dvh;min-height:0;padding:72px 0 68px;position:relative;display:block}#stage>section{position:absolute;left:50%;top:calc(50% + 2px);width:84vw;max-width:1600px;margin:0;transform:translate(-50%,-50%) scale(var(--slide-scale,1));transform-origin:center}body{overflow:hidden}}
+@media(min-width:701px) and (max-height:900px){.tag{margin-bottom:16px}h1{font-size:clamp(52px,6vw,100px)}.has-lesson h1{font-size:clamp(42px,4.5vw,70px)}.body{margin:20px 0}.visual{margin:16px 0}.has-lesson .body{margin:14px 0}.tokenisation-stage{min-height:285px;padding-top:12px}.token-text{font-size:65px}.token-name{font-size:36px}.token-caption{margin:14px auto;font-size:21px}.neural-theatre{min-height:180px}.neural-core svg{max-height:190px}.neural-explainer{margin:12px 0}.neural-progress{margin:12px 0}.reveal{margin-top:16px}}
+@media(max-width:700px){#stage{padding-bottom:110px}#stage>section{position:static;transform:none}.tag{font-size:10px}}
