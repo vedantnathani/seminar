@@ -45,6 +45,12 @@ All three introductory technology slides use the same teaching example: **prepar
 
 Space advances each step without changing slides. R restarts the current animation. The agent's visible tool choices illustrate a model-directed action loop; predefined workflows can also contain branches and retries.
 
+### Office-assistant analogy
+
+Teach the roles in order: **checklist follower → language interpreter → assistant with a goal and approved tools**. Compare the actual instructions: “Check the folder; if missing, retry once; otherwise prepare the pack” versus “Prepare the review folder using approved tools; inspect results and ask for help when needed.” The difference is where action selection comes from: rules you encoded beforehand versus a model participating in selecting actions during execution. Agents still operate inside software, workflows and permission boundaries. Branches, retries and complexity alone do not make a workflow an AI agent.
+
+Name practical implementation options: Excel VBA, Python scripts, workflow tools, or a browser application using HTML for the page and JavaScript for behaviour. HTML alone does not implement the workflow logic. Both automations and agents can use these tools. AI-assisted code generation does not turn an ordinary rule-based program into an agent.
+
 ## Three-slide LLM sequence
 
 1. **Learning:** brief history, LLM/GPT, then Space-controlled word zoom, token splitting and token IDs. Continue into an animated neural network: predict, compare the wrong guess with the training example, adjust the connections, then try again. End with parameters and training.
