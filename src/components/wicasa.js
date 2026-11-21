@@ -1,4 +1,6 @@
+import {wicasaLlmHTML,mountWicasaLlm} from './wicasa-llm.js';
 export function wicasaContent(type){
+ const animated=wicasaLlmHTML(type);if(animated)return animated;
  const steps=items=>`<div class="wc-steps">${items.map((x,i)=>`<div data-wc-step ${i?'hidden':''}>${x}</div>`).join('')}</div><button data-wc-next>Reveal next idea →</button>`;
  const handoff=(name,items)=>`<div class="wc-handoff"><span class="eyebrow">THE STAGE IS YOURS</span><h3>Jayansh Jalani <span>↗</span></h3><div class="wc-agenda">${items.map(x=>`<span>${x}</span>`).join('<b>→</b>')}</div><p>${name}</p><small>Switch to the live demonstration. Return here to continue the seminar.</small></div>`;
  switch(type){
@@ -15,6 +17,7 @@ export function wicasaContent(type){
  }
 }
 export function mountWicasa(root){
+ if(mountWicasaLlm(root))return;
  const button=root.querySelector('[data-wc-next]');if(button){let i=0;const panels=[...root.querySelectorAll('[data-wc-step]')];button.onclick=()=>{if(i>=panels.length-1)return;panels[i].hidden=true;panels[++i].hidden=false;button.disabled=i===panels.length-1;};}
  root.querySelectorAll('[data-wc-photo]').forEach(input=>{let url;input.onchange=()=>{const file=input.files[0];if(!file||!['image/png','image/jpeg','image/webp'].includes(file.type))return;if(url)URL.revokeObjectURL(url);url=URL.createObjectURL(file);const photo=input.closest('.wc-photo'),img=photo.querySelector('img');img.src=url;img.hidden=false;photo.querySelector('span').hidden=true;};window.addEventListener('pagehide',()=>{if(url)URL.revokeObjectURL(url);});});
 }

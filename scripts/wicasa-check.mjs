@@ -19,7 +19,7 @@ try{
   await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<600});await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await send('Page.navigate',{url});
   for(let i=0;i<100;i++){if(await evaluate('document.documentElement.dataset.ready==="1"'))break;await delay(80);}
   await evaluate('document.fonts.ready');
-  const result=await evaluate(`(()=>{const failures=[];for(const s of document.querySelectorAll('.scene')){const b=s.querySelector('[data-wc-next]');let phase=0;do{const wrap=s.querySelector('.wrap'),bottom=wrap.getBoundingClientRect().bottom-s.getBoundingClientRect().top;if(innerWidth>700&&bottom>innerHeight-66+2)failures.push({scene:+s.dataset.scene+1,phase,bottom});if(!b||b.disabled)break;b.click();phase++;}while(phase<5);}return {failures,sideways:document.documentElement.scrollWidth>innerWidth};})()`);
+  const result=await evaluate(`(async()=>{const failures=[];for(const s of document.querySelectorAll('.scene')){const b=s.querySelector('[data-wc-next]');let phase=0;do{await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));const wrap=s.querySelector('.wrap'),bottom=wrap.getBoundingClientRect().bottom-s.getBoundingClientRect().top;if(innerWidth>700&&bottom>innerHeight-66+2)failures.push({scene:+s.dataset.scene+1,phase,bottom});if(!b||b.disabled)break;b.click();phase++;}while(phase<30);}return {failures,sideways:document.documentElement.scrollWidth>innerWidth};})()`);
   check(`all slide states fit at ${width}×${height}`,!result.sideways&&(width<700||!result.failures.length));if(result.failures.length&&width>700)console.log(JSON.stringify(result.failures));
   if(width===1366){
    check('three named speaker templates',await evaluate('document.querySelectorAll(".wc-speakers article").length===3 && document.querySelector(".wc-speakers").textContent.includes("Harsh Kesharwani")'));
@@ -28,6 +28,21 @@ try{
    check('GST live build before opportunity map',await evaluate('[...document.querySelectorAll(".scene")].findIndex(x=>x.classList.contains("scene-wc-live")) < [...document.querySelectorAll(".scene")].findIndex(x=>x.classList.contains("scene-opportunities"))'));
    await evaluate('document.querySelector("[data-begin]").click()');await send('Input.dispatchKeyEvent',{type:'keyDown',key:' ',code:'Space',windowsVirtualKeyCode:32});await send('Input.dispatchKeyEvent',{type:'keyUp',key:' ',code:'Space',windowsVirtualKeyCode:32});
    check('Space reveals without leaving the slide',await evaluate('location.hash==="#scene-1" && !document.querySelector(".reveal-stack p").hidden'));
+   await evaluate('document.querySelector("[data-overview]").click();document.querySelector("[data-scene-link=\\"7\\"]").click();document.querySelector(".scene-wc-learn").dispatchEvent(new Event("reset-scene"));document.activeElement?.blur()');
+   const space=async()=>{await send('Input.dispatchKeyEvent',{type:'keyDown',key:' ',code:'Space',windowsVirtualKeyCode:32});await send('Input.dispatchKeyEvent',{type:'keyUp',key:' ',code:'Space',windowsVirtualKeyCode:32});};
+   await space();check('Space enters tokenisation',await evaluate('!!document.querySelector(".scene-wc-learn .tokenisation-stage[data-step=\\"0\\"]")'));
+   for(let i=0;i<4;i++)await space();check('Space zooms, splits and assigns token IDs',await evaluate('!!document.querySelector(".scene-wc-learn .tokenisation-stage[data-step=\\"4\\"]") && location.hash==="#scene-7"'));
+   await space();check('Space progresses from tokenisation into training',await evaluate('document.querySelector(".scene-wc-learn .wc-llm-phase").textContent.includes("TRAINING")'));
+   for(let i=0;i<3;i++)await space();check('training visibly adjusts connections',await evaluate('document.querySelector(".scene-wc-learn .wc-llm-stage").classList.contains("adjusted")'));
+   await send('Page.bringToFront');await send('Input.dispatchKeyEvent',{type:'keyDown',key:'f',code:'KeyF'});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'f',code:'KeyF'});await delay(700);
+   check('fullscreen keeps animated slide above the controls',await evaluate('!!document.fullscreenElement && document.querySelector(".scene-wc-learn .wrap").getBoundingClientRect().bottom <= document.querySelector(".presentation-nav").getBoundingClientRect().top'));
+   const trainingShot=await send('Page.captureScreenshot',{format:'png'});await writeFile('shots/wicasa/training-fullscreen.png',Buffer.from(trainingShot.data,'base64'));
+   await evaluate('document.fullscreenElement && document.exitFullscreen()');
+   await evaluate('document.querySelector("[data-overview]").click();document.querySelector("[data-scene-link=\\"8\\"]").click();document.querySelector(".scene-wc-generate").dispatchEvent(new Event("reset-scene"));document.activeElement?.blur()');
+   for(let i=0;i<4;i++)await space();
+   check('Space progresses from attention into output generation',await evaluate('document.querySelector(".scene-wc-generate .wc-llm-phase").textContent.includes("GENERATE THE OUTPUT")'));
+   for(let i=0;i<4;i++)await space();
+   check('Space builds the complete generated sentence on the same slide',await evaluate('document.querySelector(".scene-wc-generate .neural-input p").textContent==="A cup of tea is warm." && location.hash==="#scene-8"'));
    await evaluate('document.querySelector("[data-overview]").click();document.querySelector("[data-scene-link=\\"5\\"]").click()');await delay(200);
    const shot=await send('Page.captureScreenshot',{format:'png'});await writeFile('shots/wicasa/hierarchy.png',Buffer.from(shot.data,'base64'));
    await evaluate('document.querySelector("[data-presenter]").click()');await delay(400);

@@ -37,9 +37,11 @@ For the reconciliation live build, agree the demonstration inputs, comparison ba
 
 ## Three-slide LLM sequence
 
-1. **Learning:** brief history, LLM/GPT, tokenisation, token IDs, training and parameters. Reveal text pieces, then the predict/compare/adjust loop.
-2. **Generating:** prompt, context, attention, next-token generation and inference. Reveal a response in stages.
-3. **Memory and judgment:** training as learned skills, context as papers on the desk, optional application memory as saved notes. Reveal a concrete prompt, then missing context, hallucination and sycophancy.
+1. **Learning:** brief history, LLM/GPT, then Space-controlled word zoom, token splitting and token IDs. Continue into an animated neural network: predict, compare the wrong guess with the training example, adjust the connections, then try again. End with parameters and training.
+2. **Generating:** prompt and context, then the animated attention example. Continue with Space into neural generation: choose a token, append it, feed back the growing text, and complete the sentence. End with inference.
+3. **Memory and judgment:** reveal learned skills, papers arriving on the desk, and an optional saved note brought into a new conversation. Finish with missing context, hallucination, sycophancy and verification.
+
+Space advances one visual step and stays on the same slide after the sequence ends. Right arrow advances the slide. R restarts the current sequence. The three LLM slides resize their content when the viewport or fullscreen state changes.
 
 Token splits and IDs are illustrative. Application memory is optional and does not itself retrain a model. More context and clearer prompts do not guarantee correctness.
 
