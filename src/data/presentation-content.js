@@ -1,7 +1,8 @@
-export const chapters = [
+import {createWicasa} from './wicasa-content.js';
+const baseChapters = [
 ['The hook','00–04',4],['The Articleship story','04–09',5],['The opportunity map','09–16',7],['Think in workflows','16–25',9],['Understand the technology','25–31',6],['The live build','31–44',13],['Think like an enterprise','44–52',8],['The audience challenge','52–56',4],['The closing','56–60',4]];
 const s=(chapter,title,subtitle,type,notes,takeaway,transition,extra={})=>({chapter,title,subtitle,type,notes,takeaway,transition,...extra});
-export const scenes=[
+const baseScenes=[
 s(0,'Beyond<br>the <em>prompt.</em>','From Article Assistant to Workflow Architect.','hero','Welcome everyone. Today is about looking at work differently. You already understand transactions, evidence and controls. Keep that advantage in mind. Pause, then ask for a show of hands on the next screen.','Your domain knowledge is your starting point.','Let us start with two different questions.',{label:'A KEYNOTE FOR THE NEXT GENERATION OF CAs',duration:0.5}),
 s(0,'How many of you<br>have <em>used AI?</em>','A show of hands. No polls. No scores. Just a starting point.','hook','Ask: how many have used AI? Pause and acknowledge the room. Then select Built something and ask the second question. Building can mean a useful spreadsheet, macro or small app; it does not have to mean a startup. Reveal the three lines one at a time.','Using, building and knowing where to apply are distinct skills.','That difference began to matter during Articleship.',{duration:3.5}),
 s(1,'An accounting background.<br><em>A builder’s curiosity.</em>','You don’t need to be a software engineer to start building.','story','I came from an accounting background and was learning audit during Articleship. I did not start with formal software engineering training. Walk through the timeline. Ask the room which repeated step they have already accepted as normal. Confirm any personal detail before delivery.','Observe the process before choosing the tool.','Here is where that curiosity led.',{duration:2}),
@@ -31,3 +32,6 @@ s(8,'Seven days.<br><em>One useful beginning.</em>','A builder challenge to take
 s(8,'One problem.<br>One workflow.<br>One solution.<br><em>One measurable impact.</em>','','resolve','Reveal each line deliberately. Invite the audience to remember the task they wrote down. They do not need to become software engineers overnight; they need to observe carefully, define correctness and build within approved boundaries.','Task executor → workflow builder → impact creator.','Let me leave you with a different question.',{duration:1}),
 s(8,'Don’t ask what AI can do.<br><em>Ask what shouldn’t still<br>be done manually.</em>','Beyond the Prompt. · @vedant_nathani','closing','Read the first sentence and pause. Reveal the second. Thank the audience and leave this screen up for closing remarks and Q&A. Invite questions on the workflow, validation and professional responsibility as well as the technology.','One problem. One workflow. One solution. One measurable impact.','Q&A — leave this composition on screen.',{duration:1})
 ];
+export const isWicasa=typeof document!=='undefined'&&document.body?.dataset.deck==='wicasa';
+const selected=isWicasa?createWicasa(baseScenes):{chapters:baseChapters,scenes:baseScenes};
+export const {chapters,scenes}=selected;

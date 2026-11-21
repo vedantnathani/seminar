@@ -5,6 +5,8 @@ import '@fontsource/inter/latin-500.css';
 import '@fontsource/ibm-plex-mono/latin-400.css';
 import './styles/global.css';
 import './styles/components.css';
+import './styles/wicasa.css';
+import {mountWicasa} from './components/wicasa.js';
 import {advanceAnimation} from './components/animation-steps.js';
 import {scenes,chapters} from './data/presentation-content.js';
 import {content} from './components/scene-content.js';
@@ -24,6 +26,17 @@ const darkTypes=['hero','hook','story','statement','demo-intro','trust','resolve
 let index=0,reduceOverride=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const reduced=()=>reduceOverride;
 document.querySelector('#app').innerHTML=navigationHTML()+`<main id="keynote">${scenes.map((s,i)=>`<section id="scene-${i}" class="scene ${darkTypes.includes(s.type)?'dark':'light'} scene-${s.type} ${i===0?'hero':''}" aria-labelledby="heading-${i}" data-scene="${i}"><span class="scene-watermark" aria-hidden="true">@vedant_nathani</span>${[0,7,27].includes(i)?'<div class="atmosphere" aria-hidden="true"></div>':''}<div class="wrap"><div class="scene-kicker"><span>${s.label||String(s.chapter+1).padStart(2,'0')+' / '+chapters[s.chapter][0].toUpperCase()}</span><span>${i===0?'A 60-MINUTE CHANGE IN PERSPECTIVE':chapters[s.chapter][1]+' MIN'}</span></div><${i===0?'h1':'h2'} class="headline" id="heading-${i}">${s.type==='workbench'?s.title.replace('<br>',' '):s.title}</${i===0?'h1':'h2'}>${s.subtitle?`<p class="scene-subtitle">${s.subtitle}</p>`:''}<div class="scene-body">${content(s.type)}</div></div></section>`).join('')}</main>`;
+if(document.body.dataset.deck==='wicasa'){
+ document.querySelectorAll('.scene').forEach(mountWicasa);
+ const hero=document.querySelector('.scene-hero');
+ hero.querySelector('.scene-kicker span:last-child').textContent='90–120 MINUTES · 105-MINUTE SESSION GUIDE';
+ hero.querySelector('.hero-meta').innerHTML='<span>VEDANT · JAYANSH · HARSH</span><span>105 MINUTES · 10 CHAPTERS</span><span>OBSERVE → BUILD → CREATE IMPACT</span>';
+ document.querySelector('.wordmark').childNodes.forEach(n=>{if(n.nodeType===3&&n.textContent.includes('BEYOND THE PROMPT'))n.textContent='SEMINAR - WICASA';});
+ document.querySelector('.overview-dialog .eyebrow').textContent='SEMINAR - WICASA / 105-MINUTE GUIDE';
+ document.querySelector('.overview-dialog h2').textContent='One session. Ten chapters.';
+ document.querySelectorAll('.atmosphere').forEach(el=>{if(el.closest('.light'))el.remove();});
+ const closing=document.querySelector('.scene-closing');if(!closing.querySelector('.atmosphere'))closing.insertAdjacentHTML('afterbegin','<div class="atmosphere" aria-hidden="true"></div>');
+}
 const animations=createAnimations(reduced),scroll=createScroll(reduced),atmosphere=createAtmosphere();let navigation;
 function activate(i){if(i===index&&document.body.dataset.tone)return;index=i;document.querySelectorAll('.scene').forEach((s,n)=>{s.toggleAttribute('data-active',n===i);s.inert=n!==i;});navigation?.update(i);presenter.update();animations.enter(document.querySelector(`#scene-${i}`));atmosphere.show(document.querySelector(`#scene-${i}`));history.replaceState(null,'',`#scene-${i}`);}
 function go(i,immediate=false){i=Math.max(0,Math.min(scenes.length-1,i));activate(i);scroll.to(document.querySelector(`#scene-${i}`),immediate);}

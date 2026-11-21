@@ -1,5 +1,7 @@
 # seminar
 
+The library has three entries: **Beyond the Prompt** (`/beginner.html`), **LLM Basics** (`/llm-basics.html`), and **Seminar - WICASA** (`/wicasa.html`). WICASA follows a 105-minute guide within a 90–120 minute session, with three speakers, two Jayansh live handoffs, and exactly three condensed LLM slides. See [the WICASA run sheet](docs/WICASA-RUN-SHEET.md) for timing and speaker-photo instructions. Run `node scripts/wicasa-check.mjs` against the production preview at port 4174 for its focused browser checks.
+
 ## BEYOND THE PROMPT
 
 A seminar website with an animated landing page and a complete browser keynote for CA students in India: 28 scenes, nine chapters, 60 minutes. The landing page uses Motion; the keynote uses GSAP, Lenis and selectively lazy-loaded Vanta/Three.js. Fonts, scripts and data are bundled locally.

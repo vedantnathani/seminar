@@ -1,4 +1,6 @@
 import {buttons,line} from './utils.js';
+import {wicasaContent} from './wicasa.js';
+import {isWicasa} from '../data/presentation-content.js';
 import {blueprintHTML,consolidationHTML} from './workflow-blueprint.js';
 import {opportunitiesHTML,detectorHTML} from './opportunity-audit.js';
 import {workbenchHTML} from './expense-workbench.js';
@@ -10,7 +12,13 @@ export const architecture=[['User interface','The part a person sees and operate
 export const responsibilities=[['Rules','Calculations','Date validation','Mandatory fields','Duplicate checks','Repeatable conditions with explicit expected results.'],['AI','Interpreting ambiguous descriptions','Classifying text','Summarising unstructured information','Drafting explanations','Probabilistic assistance. Verify claims and uncertain classifications.'],['Human judgment','Audit significance','Evidence evaluation','Professional conclusions','Final approval','Context, evidence and accountability remain with the professional.']];
 export const dimensions=[['Data security','Files on one person’s machine; unclear processing and access.','Confidentiality classification, approved processing, least-privilege access and defined retention.','Who can see the data, where is it processed, and is that permitted?'],['Accuracy','Works on the creator’s usual file.','Validation, documented edge-case tests, clear failures and recoverable errors.','What happens when a date is invalid or a source file is missing?'],['Accountability','Ask the creator what happened.','Named ownership, reviewer sign-off, versioned rules and traceable results.','Who approves changes and who can explain a result later?'],['Scalability','One user and one familiar format.','Multiple users, changing schemas, maintainable code and operating documentation.','Can a colleague run it safely when the creator is unavailable?'],['Measurable impact','It feels faster.','Measured net time, rework, turnaround, exception coverage and adoption.','Has the total effort fallen while the quality holds?']];
 export const teachingSteps=[['The problem','24 expense records. Repeated manual checks. Inconsistent review notes.'],['The requirements','A date range, a configurable threshold, explicit rules and a traceable register.'],['The logic','Normalise vendor and invoice → validate fields → apply date rules → suggest review.'],['The build','A local browser interface. Synthetic data. No backend or connected LLM.'],['The test','Known duplicates, missing fields, boundary dates, unusual text and a clean baseline.'],['The improvement','Add evidence links, approved review states and controlled rule changes before real use.']];
-export function content(type){switch(type){
+if(isWicasa){
+ architecture[0][2]='A file selector, a period field and a Compare button.';
+ architecture[1][2]='Demonstration return records, agreed fields and source references.';
+ architecture[2][2]='Standardise agreed fields, compare on defined keys, and list differences for review.';
+ architecture[3][2]='Agreed comparisons use rules. Explaining ambiguous notes may use AI with review.';
+}
+export function content(type){const custom=wicasaContent(type);if(custom!==null)return custom;switch(type){
 case 'hero':return `${line(0)}<div class="hero-bottom"><p>Don’t just finish the work faster.<br><span>Redesign how the work gets done.</span></p><button class="primary" data-begin>Begin keynote <span>↗</span></button></div><div class="hero-meta"><span>VEDANT NATHANI</span><span>60 MINUTES · 09 CHAPTERS</span><span>OBSERVE → BUILD → CREATE IMPACT</span></div>`;
 case 'hook':return `<div class="audience-prompts">${buttons(["I’ve used AI.","I’ve built something."],'data-hook')}</div><div class="reveal-stack"><p hidden>Using AI is a skill.</p><p hidden>Building with AI is an advantage.</p><p hidden>Knowing where to apply it is the real skill.</p></div><button data-reveal>Reveal the distinction →</button>`;
 case 'story':return `<div class="timeline">${buttons(journey.map((x,i)=>`<span>0${i+1}</span>${x}`),'data-journey')}</div><div class="story-detail"><span class="eyebrow">THE FIRST STEP IS NOT CODE</span><h3 data-journey-detail>Learning how the work works.</h3><p>Excel → VBA → AI-assisted development → practical automation</p></div>${line(1)}`;

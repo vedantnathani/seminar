@@ -12,7 +12,7 @@ export function advanceAnimation(scene) {
     }
     return click('[data-add-step]');
   }
-  for (const selector of ['[data-reveal]', '[data-next-teaching]', '[data-trust]']) {
+  for (const selector of ['[data-wc-next]', '[data-reveal]', '[data-next-teaching]', '[data-trust]']) {
     if (scene.querySelector(selector)) return click(selector);
   }
   if (scene.classList.contains('scene-llm')) {
