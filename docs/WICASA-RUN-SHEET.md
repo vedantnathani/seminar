@@ -10,12 +10,12 @@ The 105-minute guide sits within the requested 90–120 minute session. For 90 m
 |---|---|---:|
 | 00–08 | Opening, audience hook, speakers | 8 |
 | 08–18 | Jayansh: GST Fetcher live demonstration | 10 |
-| 18–30 | AI versus automation, AI family, agents | 12 |
+| 18–30 | AI family and one clear comparison | 12 |
 | 30–45 | LLM fundamentals, exactly three slides | 15 |
 | 45–65 | Jayansh: GSTR-1 / GSTR-3B reconciliation live build | 20 |
-| 65–73 | Opportunity map, opportunity detector, tool selection | 8 |
-| 73–83 | Workflow mindset, blueprint, workbook consolidation | 10 |
-| 83–88 | Solution anatomy and responsibilities | 5 |
+| 65–73 | Opportunity map and opportunity detector | 8 |
+| 73–83 | Workflow blueprint and workbook consolidation | 10 |
+| 83–88 | Rules, AI and human responsibilities | 5 |
 | 88–96 | Trust, controls and impact | 8 |
 | 96–105 | Audience exercise, challenge and closing | 9 |
 
@@ -35,15 +35,14 @@ GST Fetcher is described only as downloading and sending records automatically. 
 
 For the reconciliation live build, agree the demonstration inputs, comparison basis, period and expected output. This deck does not prescribe statutory reporting rules or claim to make GST conclusions.
 
-## Animated AI, automation and agents sequence
+## AI, automation and agents sequence
 
-All three introductory technology slides use the same teaching example: **prepare April's GST records for review**, with the note **“April file still pending.”** This is a conceptual scenario rather than a description of GST Fetcher's implementation.
+Only two slides appear before LLM fundamentals:
 
-1. **Automation versus AI:** advance a predefined download/save/check sequence; stop on a missing file; interpret the note as an AI suggestion; combine checks with a drafted explanation. A suggestion does not establish whether a file is present.
-2. **The AI family:** reveal AI, machine learning, deep learning and LLMs outward-to-inward. The same note appears at the LLM level. A fixed checklist can operate without an LLM.
-3. **An AI agent:** give the review-pack goal and tool limits; inspect the folder; observe the missing file; select an allowed retry; recheck and pause for human approval. In this illustrative scenario the retry succeeds; that is not a guarantee about real systems.
+1. **The AI family:** reveal AI, machine learning, deep learning and LLMs outward-to-inward.
+2. **One comparison:** see automation, an AI assistant and an AI agent side by side for the same April GST-folder task.
 
-Space advances each step without changing slides. R restarts the current animation. The agent's visible tool choices illustrate a model-directed action loop; predefined workflows can also contain branches and retries.
+Space advances the hierarchy without changing slides. The comparison stays visible as one complete teaching frame.
 
 ### Office-assistant analogy
 
@@ -65,7 +64,7 @@ Token splits and IDs are illustrative. Application memory is optional and does n
 
 Right/left arrows change scenes. Space advances the current reveal or interactive selection. Shift + Space returns one animation step, including across LLM animation phases. F toggles fullscreen. O opens the overview. H opens settings. Presenter opens a separate notes window; Shift + Space also works there. Share the audience window only.
 
-One additional comparison slide, immediately before LLM fundamentals, puts automation, an AI assistant and an AI agent side by side for the same April review-folder task. It compares the exact request, the action or response, and where the next step comes from. The session remains on the 105-minute guide.
+The repeated automation/agent walkthroughs, the “Sometimes a formula is smarter” slide, the duplicate workflow-introduction statements and the second input/logic/output architecture diagram are omitted. The deck keeps one workflow blueprint and one responsibility comparison instead. The session remains on the 105-minute guide.
 
 The original expense-workbench introduction, build steps, workbench, expense testing and before/after sequence are omitted. General professional validation and control content is retained.
 
