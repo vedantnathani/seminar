@@ -35,6 +35,16 @@ GST Fetcher is described only as downloading and sending records automatically. 
 
 For the reconciliation live build, agree the demonstration inputs, comparison basis, period and expected output. This deck does not prescribe statutory reporting rules or claim to make GST conclusions.
 
+## Animated AI, automation and agents sequence
+
+All three introductory technology slides use the same teaching example: **prepare April's GST records for review**, with the note **“April file still pending.”** This is a conceptual scenario rather than a description of GST Fetcher's implementation.
+
+1. **Automation versus AI:** advance a predefined download/save/check sequence; stop on a missing file; interpret the note as an AI suggestion; combine checks with a drafted explanation. A suggestion does not establish whether a file is present.
+2. **The AI family:** reveal AI, machine learning, deep learning and LLMs outward-to-inward. The same note appears at the LLM level. A fixed checklist can operate without an LLM.
+3. **An AI agent:** give the review-pack goal and tool limits; inspect the folder; observe the missing file; select an allowed retry; recheck and pause for human approval. In this illustrative scenario the retry succeeds; that is not a guarantee about real systems.
+
+Space advances each step without changing slides. R restarts the current animation. The agent's visible tool choices illustrate a model-directed action loop; predefined workflows can also contain branches and retries.
+
 ## Three-slide LLM sequence
 
 1. **Learning:** brief history, LLM/GPT, then Space-controlled word zoom, token splitting and token IDs. Continue into an animated neural network: predict, compare the wrong guess with the training example, adjust the connections, then try again. End with parameters and training.
