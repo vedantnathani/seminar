@@ -63,7 +63,9 @@ Token splits and IDs are illustrative. Application memory is optional and does n
 
 ## Controls
 
-Right/left arrows change scenes. Space advances the current reveal or interactive selection. F toggles fullscreen. O opens the overview. H opens settings. Presenter opens a separate notes window. Share the audience window only.
+Right/left arrows change scenes. Space advances the current reveal or interactive selection. Shift + Space returns one animation step, including across LLM animation phases. F toggles fullscreen. O opens the overview. H opens settings. Presenter opens a separate notes window; Shift + Space also works there. Share the audience window only.
+
+One additional comparison slide, immediately before LLM fundamentals, puts automation, an AI assistant and an AI agent side by side for the same April review-folder task. It compares the exact request, the action or response, and where the next step comes from. The session remains on the 105-minute guide.
 
 The original expense-workbench introduction, build steps, workbench, expense testing and before/after sequence are omitted. General professional validation and control content is retained.
 

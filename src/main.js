@@ -7,7 +7,7 @@ import './styles/global.css';
 import './styles/components.css';
 import './styles/wicasa.css';
 import {mountWicasa} from './components/wicasa.js';
-import {advanceAnimation} from './components/animation-steps.js';
+import {advanceAnimation,retreatAnimation} from './components/animation-steps.js';
 import {scenes,chapters} from './data/presentation-content.js';
 import {content} from './components/scene-content.js';
 import {mountInteractions} from './components/interactions.js';
@@ -40,7 +40,7 @@ if(document.body.dataset.deck==='wicasa'){
 const animations=createAnimations(reduced),scroll=createScroll(reduced),atmosphere=createAtmosphere();let navigation;
 function activate(i){if(i===index&&document.body.dataset.tone)return;index=i;document.querySelectorAll('.scene').forEach((s,n)=>{s.toggleAttribute('data-active',n===i);s.inert=n!==i;});navigation?.update(i);presenter.update();animations.enter(document.querySelector(`#scene-${i}`));atmosphere.show(document.querySelector(`#scene-${i}`));history.replaceState(null,'',`#scene-${i}`);}
 function go(i,immediate=false){i=Math.max(0,Math.min(scenes.length-1,i));activate(i);scroll.to(document.querySelector(`#scene-${i}`),immediate);}
-const presenter=createPresenter(()=>index,go,()=>advanceAnimation(document.querySelector(`#scene-${index}`)));
+const presenter=createPresenter(()=>index,go,back=>(back?retreatAnimation:advanceAnimation)(document.querySelector(`#scene-${index}`)));
 function configureReduced(value){reduceOverride=value;document.documentElement.classList.toggle('reduce-motion',value);scroll.configure();atmosphere.disable(value||document.querySelector('[data-background]').checked);animations.enter(document.querySelector(`#scene-${index}`));if(!value)atmosphere.show(document.querySelector(`#scene-${index}`));}
 navigation=createNavigation({go,getIndex:()=>index,scroll,animations,atmosphere,presenter,configureReduced});document.querySelector('[data-reduced]').checked=reduced();
 splitHeadlines(document.querySelector('main'));

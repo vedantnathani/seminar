@@ -5,6 +5,8 @@ import {createWicasa} from '../src/data/wicasa-content.js';
 test('WICASA keeps the first seminar intact and provides a complete 105-minute running order',()=>{
  const {scenes,chapters}=createWicasa(original);
  assert.equal(original.length,28);
+ assert.equal(scenes.length,30);
+ assert.equal(scenes.filter(s=>s.type==='wc-difference').length,1);
  assert.equal(chapters.reduce((n,c)=>n+c[2],0),105);
  assert.ok(Math.abs(scenes.reduce((n,s)=>n+s.duration,0)-105)<1e-8);
  assert.equal(scenes.filter(s=>['wc-learn','wc-generate','wc-memory'].includes(s.type)).length,3);

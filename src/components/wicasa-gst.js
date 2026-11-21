@@ -43,5 +43,6 @@ export function mountWicasaGst(scene){
  function fit(){const wrap=scene.querySelector('.wrap');wrap.style.zoom='';if(innerWidth>700){const room=innerHeight-182;const h=wrap.getBoundingClientRect().height;if(h>room)wrap.style.zoom=String(room/h);}}
  function show(){lesson.dataset.gstStep=step;stage.innerHTML=type==='wc-venn'?(step===5?buildTools():conveyor(step)):type==='wc-hierarchy'?family(step):step===0||step===5?instructions():step===6?buildTools():agent(step);const [title,text]=plans[type][step];narration.innerHTML=`<strong>${title}</strong><p>${text}</p>`;progress.textContent=`${step+1} / ${plans[type].length} · SPACE TO CONTINUE`;button.disabled=step===plans[type].length-1;if(button.disabled)progress.textContent=`${step+1} / ${plans[type].length} · COMPLETE · → NEXT SLIDE`;requestAnimationFrame(fit);}
  button.onclick=()=>{if(step<plans[type].length-1){step++;show();}};
+ scene.undoAnimation=()=>{if(!step)return false;step--;show();return true;};
  scene.addEventListener('reset-scene',()=>{step=0;show();});window.addEventListener('resize',fit);document.addEventListener('fullscreenchange',()=>requestAnimationFrame(fit));document.fonts.ready.then(fit);show();return true;
 }

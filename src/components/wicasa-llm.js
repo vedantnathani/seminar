@@ -25,12 +25,13 @@ const plans={
 export function wicasaLlmHTML(type){return plans[type]?'<div class="wc-llm-animation"><div class="wc-llm-phase" aria-live="polite"></div><div class="wc-llm-stage"></div></div><button data-wc-next>Next animation <span aria-hidden="true">→</span></button><span class="wc-llm-help">SPACE · NEXT STEP</span>':null;}
 export function mountWicasaLlm(scene){
  const type=Object.keys(plans).find(t=>scene.classList.contains('scene-'+t));if(!type)return false;
- const plan=plans[type],stage=scene.querySelector('.wc-llm-stage'),label=scene.querySelector('.wc-llm-phase'),button=scene.querySelector('[data-wc-next]');let phase=0,next=null;
+ const plan=plans[type],stage=scene.querySelector('.wc-llm-stage'),label=scene.querySelector('.wc-llm-phase'),button=scene.querySelector('[data-wc-next]');let phase=0,next=null,substep=0,lessonOptions={};const history=[];
  function fit(){
   const wrap=scene.querySelector('.wrap');wrap.style.zoom='';
   if(innerWidth>700){const room=innerHeight-100-82;const size=wrap.getBoundingClientRect().height;if(size>room)wrap.style.zoom=String(room/size);}
  }
- function show(){const item=plan[phase];label.textContent=item.label;stage.classList.remove('adjusted','feedback','tokenisation-visual');stage.innerHTML=item.html||'';next=item.lesson?mountLesson(stage,item.lesson):null;button.disabled=phase===plan.length-1;requestAnimationFrame(fit);}
- button.onclick=()=>{if(next?.()){requestAnimationFrame(fit);return;}if(phase<plan.length-1){phase++;show();}};
- scene.addEventListener('reset-scene',()=>{phase=0;show();});window.addEventListener('resize',fit);document.addEventListener('fullscreenchange',()=>requestAnimationFrame(fit));document.fonts.ready.then(fit);show();return true;
+ function show(instant=false){const item=plan[phase];substep=0;label.textContent=item.label;stage.classList.remove('adjusted','feedback','tokenisation-visual');stage.innerHTML=item.html||'';lessonOptions={instant};next=item.lesson?mountLesson(stage,item.lesson,lessonOptions):null;button.disabled=phase===plan.length-1;requestAnimationFrame(fit);}
+ button.onclick=()=>{const before={phase,substep};if(next?.()){history.push(before);substep++;requestAnimationFrame(fit);return;}if(phase<plan.length-1){history.push(before);phase++;show();}};
+ scene.undoAnimation=()=>{const previous=history.pop();if(!previous)return false;phase=previous.phase;show(true);for(let i=0;i<previous.substep;i++)next?.();lessonOptions.instant=false;substep=previous.substep;requestAnimationFrame(fit);return true;};
+ scene.addEventListener('reset-scene',()=>{phase=0;history.length=0;show();});window.addEventListener('resize',fit);document.addEventListener('fullscreenchange',()=>requestAnimationFrame(fit));document.fonts.ready.then(fit);show();return true;
 }

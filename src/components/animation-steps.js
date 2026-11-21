@@ -1,4 +1,13 @@
 // Space advances only presenter-led builds. It never submits a form or changes slides.
+export function retreatAnimation(scene){
+ if(scene.undoAnimation)return scene.undoAnimation();
+ const stack=scene.querySelector('.reveal-stack');if(stack){const shown=[...stack.querySelectorAll('p:not([hidden])')];if(!shown.length)return false;shown.at(-1).hidden=true;scene.querySelector('[data-reveal]').disabled=false;return true;}
+ if(scene.classList.contains('scene-consolidation')){scene.dispatchEvent(new Event('previous-animation'));return true;}
+ const trust=scene.querySelector('.trust-reveal');if(trust&&!trust.hidden){trust.hidden=true;scene.querySelector('[data-trust]').disabled=false;return true;}
+ if(scene.classList.contains('scene-llm')||scene.classList.contains('scene-testing')){scene.dispatchEvent(new Event('reset-scene'));return true;}
+ for(const attribute of ['data-journey','data-project','data-category','data-block','data-architecture','data-responsibility','data-before','data-dimension','data-day','data-teaching']){const buttons=[...scene.querySelectorAll(`[${attribute}]`)];const at=buttons.findIndex(b=>b.getAttribute('aria-pressed')==='true');if(at>0){buttons[at-1].click();return true;}}
+ return false;
+}
 export function advanceAnimation(scene) {
   const click = selector => {
     const button = scene.querySelector(selector);
